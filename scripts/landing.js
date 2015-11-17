@@ -1,4 +1,4 @@
-var pointsArray = document.getElementsByClassName("point");
+//var pointsArray = document.getElementsByClassName("point");
 
 var animatePoints = function(points) {
   
@@ -7,13 +7,15 @@ var animatePoints = function(points) {
     points[index].style.transform = "scaleX(1) translateY(0)";
     points[index].style.msTransform = "scaleX(1) translateY(0)";
     points[index].style.WebkitTransform = "scaleX(1) tanslateY(0)";
-  }
+  };
   
-  for (var i = 0; i < points.length; i++) {
-    revealPoints(i);
-  }
-
+//  for (var i = 0; i < points.length; i++) {
+//    revealPoints(i);
+//  }
+  
 };
+
+forEach(pointsArray, animatePoints);
 
 window.onload = function() {
   // Automatically animate on tall screens
