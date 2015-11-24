@@ -29,7 +29,7 @@ var albumMarconi = {
 };
 
 var albumMarmoset = {
-  name: 'Home',
+  name: 'The Marmoset',
   artist: 'Marmoset Babyears',
   label: 'Old World',
   year: '1978',
@@ -66,30 +66,23 @@ var setCurrentAlbum = function(album) {
   for (i = 0; i < album.songs.length; i++) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length); 
   }
-  // Make sure setCurrentAlbum returns album for toggleAlbum to use
-  console.log(album);
-  return album;
-};
-
-window.onload = function() {
-  setCurrentAlbum(albumPicasso);
 };
 
 // Get album image into global scope
 var albumImage = document.getElementsByClassName('album-cover-art')[0];
 console.log(albumImage);
 
-// Create function to toggle through album content
-function toggleAlbum(album) {
-  if (album == 'albumPicasso') {
-    setCurrentAlbum(albumMarconi);
-  } else if (album == 'albumMarconi') {
-    setCurrentAlbum(albumMarmoset);
-  } else {
-    setCurrentAlbum(albumPicasso);
-  }
-}
-// Call toggleAlbum on click
-albumImage.addEventListener('click', function(event) {
-  toggleAlbum(setCurrentAlbum);
-});
+window.onload = function() {
+  setCurrentAlbum(albumPicasso);
+  
+  var albums = [albumPicasso, albumMarconi, albumMarmoset];
+  var i = 1;
+  albumImage.addEventListener('click', function(event) { 
+    setCurrentAlbum(albums[i]);
+    i++;
+    if (i == albums.length) {
+      i = 0;
+    }
+  });
+};
+
