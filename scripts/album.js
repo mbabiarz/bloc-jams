@@ -68,9 +68,17 @@ var setCurrentAlbum = function(album) {
   }
 };
 
+// CP27 - advanced element selection
+var findParentByClassName = function() {
+  var songItemNo = document.getElementsByClassName('song-item-number')[0];
+  console.log(songItemNo);
+  var songItemNoParent = songItemNo.parentElement.className;
+  console.log(songItemNoParent);
+};
+
 // CP25 - Get album image into global scope
 var albumImage = document.querySelector('.album-cover-art');
-console.log(albumImage);
+// console.log(albumImage);
 
 // CP26
 var songTable = document.getElementsByClassName('album-view-song-list')[0];
@@ -97,7 +105,7 @@ window.onload = function() {
       // Change content from song number to play button
       event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
     }
-    console.log(event.target);
+    // console.log(event.target);
   });
   
   for (i=0; i<songRows.length; i++) {
@@ -108,3 +116,16 @@ window.onload = function() {
   }
 };
 
+// CP27 Practice:
+// Select .song-item-number
+var songItemNo1 = document.querySelector('.song-item-number');
+console.log(songItemNo1); // doesn't work - why? expecting first instance of td
+var songItemNo2 = document.getElementsByClassName('song-item-number');
+console.log(songItemNo2); // works!
+var songItemNo3 = document.getElementsByClassName('song-item-number')[1];
+console.log(songItemNo3); // doesn't work - why? expecting 2nd instance of td
+//Select child of .song-item-number
+console.log(songItemNo2.childNodes);
+console.log(songItemNo2.children);
+
+findParentByClassName();
