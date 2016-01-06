@@ -29,7 +29,7 @@ var albumMarconi = {
 };
 
 var albumMarmoset = {
-  name: 'The Marmoset',
+  name: 'Home',
   artist: 'Marmoset Babyears',
   label: 'Old World',
   year: '1978',
@@ -66,45 +66,30 @@ var setCurrentAlbum = function(album) {
   for (i = 0; i < album.songs.length; i++) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length); 
   }
+  // Make sure setCurrentAlbum returns album for toggleAlbum to use
+  console.log(album);
+  return album;
 };
-
-// CP25 - Get album image into global scope
-var albumImage = document.querySelector('.album-cover-art');
-console.log(albumImage);
-
-// CP26
-var songTable = document.getElementsByClassName('album-view-song-list')[0];
-var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
-var songRows = document.getElementsByClassName('album-view-song-item');
-
 
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
-  
-  var albums = [albumPicasso, albumMarconi, albumMarmoset];
-  var i = 1;
-  albumImage.addEventListener('click', function(event) { 
-    setCurrentAlbum(albums[i]);
-    i++;
-    if (i == albums.length) {
-      i = 0;
-    }
-  });
-  
-  songTable.addEventListener("mouseover", function(event) {
-    // Target song row
-    if (event.target.parentElement.className === 'album-view-song-item') {
-      // Change content from song number to play button
-      event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
-    }
-    console.log(event.target);
-  });
-  
-  for (i=0; i<songRows.length; i++) {
-    songRows[i].addEventListener('mouseleave', function (event) {
-      // Revert content back to number
-      this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
-    });
-  }
 };
 
+// Get album image into global scope
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+console.log(albumImage);
+
+// Create function to toggle through album content
+function toggleAlbum(album) {
+  if (album == 'albumPicasso') {
+    setCurrentAlbum(albumMarconi);
+  } else if (album == 'albumMarconi') {
+    setCurrentAlbum(albumMarmoset);
+  } else {
+    setCurrentAlbum(albumPicasso);
+  }
+}
+// Call toggleAlbum on click
+albumImage.addEventListener('click', function(event) {
+  toggleAlbum(setCurrentAlbum);
+});
