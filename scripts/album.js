@@ -41,6 +41,13 @@ var albumMarmoset = {
   ]
 };
 
+// Select elements to populate dynaically
+var albumTitle = document.getElementsByClassName('album-view-title')[0];
+var albumArtist = document.getElementsByClassName('album-view-artist')[0];
+var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
+var albumImage = document.getElementsByClassName('album-cover-art')[0];
+var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+
 var createSongRow = function(songNumber, songName, songLength) {
   var template = 
       '<tr class="album-view-song-item">'
@@ -52,44 +59,30 @@ var createSongRow = function(songNumber, songName, songLength) {
 };
 
 var setCurrentAlbum = function(album) {
-  var albumTitle = document.getElementsByClassName('album-view-title')[0];
-  var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-  var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-  var albumImage = document.getElementsByClassName('album-cover-art')[0];
-  var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
-  
+  // Assign values to album info
   albumTitle.firstChild.nodeValue = album.name;
   albumArtist.firstChild.nodeValue = album.artist;
   albumReleaseInfo.innerHTML = album.year + ' ' + album.label;
   albumImage.setAttribute('src', album.albumArtUrl);
+  // Clear content of the album song list container
   albumSongList.innerHTML = '';
+  // Build list of songs from album JS object
   for (i = 0; i < album.songs.length; i++) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].name, album.songs[i].length); 
   }
-  // Make sure setCurrentAlbum returns album for toggleAlbum to use
-  console.log(album);
-  return album;
 };
 
 window.onload = function() {
   setCurrentAlbum(albumPicasso);
+  
+  var albums = [albumPicasso, albumMarconi, albumMarmoset];
+  var i = 1;
+  albumImage.addEventListener('click', function(event) {
+    setCurrentAlbum(albums[i]);
+    i++;
+    if (i == albums.length) {
+      i = 0;
+    }
+  });
+
 };
-
-// Get album image into global scope
-var albumImage = document.getElementsByClassName('album-cover-art')[0];
-console.log(albumImage);
-
-// Create function to toggle through album content
-function toggleAlbum(album) {
-  if (album == 'albumPicasso') {
-    setCurrentAlbum(albumMarconi);
-  } else if (album == 'albumMarconi') {
-    setCurrentAlbum(albumMarmoset);
-  } else {
-    setCurrentAlbum(albumPicasso);
-  }
-}
-// Call toggleAlbum on click
-albumImage.addEventListener('click', function(event) {
-  toggleAlbum(setCurrentAlbum);
-});
