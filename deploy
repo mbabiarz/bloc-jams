@@ -1,0 +1,2 @@
+# set env var = $1
+git push origin master:gh-pages
