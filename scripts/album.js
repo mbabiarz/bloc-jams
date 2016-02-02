@@ -11,7 +11,7 @@ var createSongRow = function(songNumber, songName, songLength) {
       '<tr class="album-view-song-item">'
     + ' <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
     + ' <td class="song-item-title">' + songName + '</td>'
-    + ' <td class="song-item-duration">' + songLength + '</td>'
+    + ' <td class="song-item-duration">' + filterTimeCode(songLength) + '</td>'
     + '</tr>';
   var $row = $(template);
   
@@ -216,6 +216,8 @@ var updateSeekBarWhilePlaying = function() {
       var $seekBar = $('.seek-control .seek-bar');
       
       updateSeekPercentage($seekBar, seekBarFillRatio);
+      setCurrentTimeInPlayerBar(filterTimeCode(this.getTime()));
+      setTotalTimeInPlayerBar(filterTimeCode(this.getDuration()));
     });
   }
 };
@@ -274,6 +276,31 @@ var setupSeekBars = function() {
   });
 };
 
+var setCurrentTimeInPlayerBar = function(currentTime) {
+  var $displayCurrentTime = $('.current-time').text(currentTime);
+//  console.log(typeof $displayCurrentTime.text());
+};
+
+var setTotalTimeInPlayerBar = function(totalTime) {
+   var $displayTotalTime = $('.total-time').text(totalTime);
+};
+
+var filterTimeCode = function(timeInSeconds) {
+  var seconds = parseFloat(timeInSeconds);
+  var wholeSeconds = Math.floor(seconds);
+  var minutes = Math.floor(wholeSeconds / 60);
+  var remainingSeconds = wholeSeconds % 60;
+  
+  var output = minutes + ':';
+  
+  if (remainingSeconds < 10) {
+    output += '0';
+  }
+  output += remainingSeconds;
+  
+  return output;
+};
+
 // Album button tamplates
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
@@ -285,6 +312,7 @@ var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentAlbum = null;
 var currentSoundFile = null;
+var currentTime = null;
 var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
