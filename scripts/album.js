@@ -261,7 +261,7 @@ var setupSeekBars = function() {
       if ($(this).parent().attr('class') == 'seek-control') {
         seek(seekBarFillRatio * currentSoundFile.getDuration());
       } else {
-        setVolume(seekBarFillRatio);
+        setVolume(seekBarFillRatio * 100);
       }
 
       updateSeekPercentage($seekBar, seekBarFillRatio);
